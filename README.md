@@ -24,9 +24,38 @@ A shareable IBM Bob workspace setup for refactoring Terraform to OpenTofu and ru
 
 Not included on purpose: Spacelift connection settings active in git (they need your account name — see `.bob/mcp.json.example`).
 
-## Setup (per team member)
+## Install into your own workspace (recommended)
 
-1. Clone the repo and open the folder in Bob. Trust the workspace when asked.
+This repo is the distribution source. You do not clone it into your project. Run the installer from your project folder, and it copies only the Bob assets into that project's `.bob/` folder. You get no README, no `.git` history and no `specs/` unless you ask for them.
+
+```sh
+cd /path/to/your-project
+npx github:krondor/bob-tofu-spacelift            # needs Node >= 18 and git access to the repo
+```
+
+Or from a local checkout kept elsewhere: `node /path/to/bob-tofu-spacelift/scripts/install.mjs /path/to/your-project`.
+
+| Option | Effect |
+|---|---|
+| `--dry-run` | Print what would change; write nothing. |
+| `--git-exclude` | Add the installed paths to your project's `.git/info/exclude`. This is a local-only ignore, so `git status` stays clean and nothing is committed. Leave it off if your team wants the mode committed. |
+| `--with-templates` | Also copy `AGENTS.md` and `specs/001-inventory`, only if they do not already exist. |
+| `--force` | Replace an existing `tofu-spacelift` block in `custom_modes.yaml` (otherwise it is skipped). |
+
+What it installs into the target:
+
+- `.bob/custom_modes.yaml`: the mode is **merged** in. Your other modes are untouched.
+- `.bob/settings.json`: the hooks are **merged** in. Your other settings and hooks are untouched.
+- `.bob/rules-tofu-spacelift/`, `.bob/hooks/`, `.bob/skills/{spacelift,spacelift-policy-writer,terraform-skill}/`, `.bob/licenses/tofu-spacelift/` and `.bob/mcp.json.example`. These are managed assets and are overwritten on every run.
+
+**Updating:** re-run the same command. Managed assets are refreshed; the mode block is only replaced with `--force`.
+**Removing:** delete the paths above, the `tofu-spacelift` block in `custom_modes.yaml` and the three hook groups that reference `.bob/hooks/` in `settings.json`.
+
+The installer resolves the `terraform-skill` symlink into real files, so the Windows symlink caveat in the setup steps below does not apply to installed workspaces.
+
+## Setup (working in this repo directly, or after install)
+
+1. Open the folder in Bob. Trust the workspace when asked.
 2. Select the mode **OpenTofu + Spacelift** in the mode picker. If it is missing, the YAML failed validation and Bob dropped the whole file. Check the slug (`tofu-spacelift`), group names and that the file is plain ASCII.
 3. Connect the Spacelift MCP (optional but needed for live Spacelift data). Copy `.bob/mcp.json.example` to `.bob/mcp.json` and replace the account-name placeholder with your account. Then open Bob and authenticate via OAuth.
 

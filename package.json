@@ -1,0 +1,21 @@
+{
+  "name": "bob-tofu-spacelift",
+  "version": "0.1.0",
+  "description": "Installer for the OpenTofu + Spacelift IBM Bob mode, rules, hooks and skills.",
+  "type": "module",
+  "private": true,
+  "bin": {
+    "bob-tofu-spacelift": "scripts/install.mjs"
+  },
+  "files": [
+    "scripts",
+    ".bob",
+    ".agents",
+    "LICENSES",
+    "AGENTS.md",
+    "specs"
+  ],
+  "engines": {
+    "node": ">=18"
+  }
+}
