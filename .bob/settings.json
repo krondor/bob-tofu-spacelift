@@ -1,0 +1,28 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "^execute_command$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node .bob/hooks/block-destructive.mjs",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "^(write_file|apply_diff|search_and_replace|insert_content)$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node .bob/hooks/tofu-post-edit.mjs",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "_comment": "Copy this file to .bob/mcp.json and replace placeholders. .bob/mcp.json is git-ignored.",
+  "mcpServers": {
+    "spacelift": {
+      "type": "streamable-http",
+      "url": "https://<account-name>.app.spacelift.io/mcp?tools=query,provider",
+      "_comment_url": "US-hosted accounts use https://<account-name>.app.us.spacelift.io/mcp",
+      "_comment_tools": "?tools= is alpha and can only narrow. Start with query,provider (read-only). Add mutate only when a spec task needs it and re-authenticate with mcp:write.",
+      "_comment_auth": "Bob opens a browser for OAuth on first connection. Do not add mutate or intent to alwaysAllow."
+    }
+  },
+  "_comment_cloud_mcps": "Optional cloud provider MCP servers are documented in README.md#optional-cloud-provider-mcp-servers. None are configured here. Add them only when a spec records a concrete gap and security has approved the identity.",
+  "_comment_example_azure": {
+    "azure": {
+      "type": "streamable-http",
+      "url": "https://management.azure.com/mcp",
+      "_note": "Not yet confirmed to work with Bob. Use --read-only and a namespace mode. See README for details."
+    }
+  },
+  "_comment_example_gcp": {
+    "gcloud": {
+      "type": "streamable-http",
+      "url": "https://cloudresourcemanager.googleapis.com/mcp",
+      "_note": "Preview only. Targets MCP spec 2026-07-28 (stateless). Bob compatibility unverified. See README for details."
+    }
+  },
+  "_comment_example_aws": {
+    "aws": {
+      "command": "npx @aws/mcp-server-aws",
+      "_note": "Agent Toolkit for AWS. Check current pricing and terms. See README for details."
+    }
+  }
+}

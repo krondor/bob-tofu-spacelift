@@ -1,0 +1,27 @@
+# macOS
+.DS_Store
+
+# Terraform / OpenTofu local working files
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+tfplan
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Variable files often hold secrets. Force-add (git add -f) only reviewed, non-sensitive ones.
+*.tfvars
+*.tfvars.json
+
+# Secrets and local environment
+.env
+.env.*
+
+# Bob scratch space
+.bob/tmp/
+.bob/mcp.json

@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "skills": {
+    "spacelift": {
+      "source": "spacelift-io/claude-plugins",
+      "sourceType": "github",
+      "skillPath": "plugins/spacelift/skills/spacelift/SKILL.md",
+      "computedHash": "8f0e44599d22b62cfbd42c352666bebbaff099bb56dbd2c9963b1d9d63d02f3c"
+    },
+    "spacelift-policy-writer": {
+      "source": "spacelift-io/claude-plugins",
+      "sourceType": "github",
+      "skillPath": "plugins/spacelift/skills/spacelift-policy-writer/SKILL.md",
+      "computedHash": "ea7db61dbe845b40fcf00cdfbc0924b2d4be2472c587c7dd2ae8937f37db78b3"
+    },
+    "terraform-skill": {
+      "source": "antonbabenko/terraform-skill",
+      "sourceType": "github",
+      "skillPath": "skills/terraform-skill/SKILL.md",
+      "computedHash": "2fbcf60b149bd4ed5a31c82b799b15fe955138238a3f68ec697605d994cb9234"
+    }
+  }
+}
