@@ -10,6 +10,16 @@
             "timeout": 10
           }
         ]
+      },
+      {
+        "matcher": "^mcp__[\\w]*spacelift[\\w]*__(mutate|intent)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node .bob/hooks/block-destructive.mjs",
+            "timeout": 10
+          }
+        ]
       }
     ],
     "PostToolUse": [

@@ -113,22 +113,30 @@ Two skills from Spacelift are installed in [`.bob/skills/`](.bob/skills/):
 
 Two hooks ship with this repo in [`.bob/settings.json`](.bob/settings.json):
 
-| Hook | Event | What it does |
-|---|---|---|
-| `block-destructive` | `PreToolUse` on `execute_command` | Blocks `apply`, `destroy`, `state rm`, `force-unlock`, `-auto-approve` if run from the agent shell. Exits 2 to deny the call. |
-| `tofu-post-edit` | `PostToolUse` on file edits | After writing any `.tf` or `.hcl` file, runs `tofu fmt` and `tofu validate -no-color` (if `tofu` is on PATH) and adds findings to model context. |
+| Hook | Event | Matcher | What it does |
+|---|---|---|---|
+| `block-destructive` | `PreToolUse` | `^execute_command$` | Blocks `tofu`/`terraform` subcommands: `apply`, `destroy`, `state rm/mv/push/replace-provider`, `force-unlock`, `taint/untaint`, `import`, and `-auto-approve`. Patterns are anchored to the `tofu`/`terraform` binary so unrelated tools (`kubectl apply`, `apt-get remove`) are not caught. Also blocks shell-wrapped and chained invocations (`bash -c 'tofu apply'`, `echo ok && tofu apply`). Exits 2 to deny the call. |
+| `block-destructive` | `PreToolUse` | `^mcp__[\w]*spacelift[\w]*__(mutate\|intent)` | Blocks Spacelift MCP `mutate` and `intent*` tools before they are approved. Matches both the canonical server name and Bob-truncated variants (e.g. `mcp__spc_spacelift__mutate`). The mode's `YES`/`CONFIRM` gate is advisory; this hook is deterministic. Exits 2 to deny the call. |
+| `tofu-post-edit` | `PostToolUse` | `^(write_file\|apply_diff\|search_and_replace\|insert_content)$` | After writing any `.tf` or `.hcl` file, runs `tofu fmt -diff -check` and `tofu validate -no-color` (if `tofu` is on PATH and `.terraform/` exists) and adds findings to model context. |
 
-Both hooks fail open (errors do not block the tool call). They run only in trusted workspaces. The hook scripts live in [`.bob/hooks/`](.bob/hooks/). Review them before relying on them.
+All hooks fail open (errors do not block the tool call). They run only in trusted workspaces. The hook scripts live in [`.bob/hooks/`](.bob/hooks/). Review them before relying on them.
 
 **To test manually:**
 
 ```sh
-# block-destructive: should exit 2 and print the deny message
+# Run the full test suite (19 cases: pass and block scenarios for both matchers)
+node .bob/hooks/run-tests.mjs
+
+# block-destructive — execute_command path: should exit 2 and print the deny message
 printf '%s' '{"session_id":"test","cwd":".","hook_event_name":"PreToolUse","tool_name":"execute_command","tool_input":{"command":"tofu apply"},"tool_use_id":"t1"}' \
   | node .bob/hooks/block-destructive.mjs
 
+# block-destructive — MCP path: should exit 2 and print the deny message
+printf '%s' '{"session_id":"test","cwd":".","hook_event_name":"PreToolUse","tool_name":"mcp__spacelift__mutate","tool_input":{},"tool_use_id":"t2"}' \
+  | node .bob/hooks/block-destructive.mjs
+
 # tofu-post-edit: should run fmt/validate and print any output (or nothing if clean)
-printf '%s' '{"session_id":"test","cwd":".","hook_event_name":"PostToolUse","tool_name":"write_file","tool_input":{"path":"main.tf"},"tool_use_id":"t2"}' \
+printf '%s' '{"session_id":"test","cwd":".","hook_event_name":"PostToolUse","tool_name":"write_file","tool_input":{"path":"main.tf"},"tool_use_id":"t3"}' \
   | node .bob/hooks/tofu-post-edit.mjs
 ```
 

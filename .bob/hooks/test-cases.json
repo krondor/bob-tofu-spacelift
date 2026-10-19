@@ -1,0 +1,21 @@
+[
+  {"label":"PASS: kubectl apply","expect":0,"input":{"session_id":"t","cwd":".","hook_event_name":"PreToolUse","tool_name":"execute_command","tool_input":{"command":"kubectl apply -f manifest.yaml"},"tool_use_id":"1"}},
+  {"label":"PASS: tofu plan","expect":0,"input":{"session_id":"t","cwd":".","hook_event_name":"PreToolUse","tool_name":"execute_command","tool_input":{"command":"tofu plan -out=plan.tfplan"},"tool_use_id":"2"}},
+  {"label":"PASS: apt-get remove","expect":0,"input":{"session_id":"t","cwd":".","hook_event_name":"PreToolUse","tool_name":"execute_command","tool_input":{"command":"apt-get remove build-essential"},"tool_use_id":"3"}},
+  {"label":"PASS: read_file tool","expect":0,"input":{"session_id":"t","cwd":".","hook_event_name":"PreToolUse","tool_name":"read_file","tool_input":{"path":"main.tf"},"tool_use_id":"4"}},
+  {"label":"PASS: tflint","expect":0,"input":{"session_id":"t","cwd":".","hook_event_name":"PreToolUse","tool_name":"execute_command","tool_input":{"command":"tflint --recursive"},"tool_use_id":"5"}},
+  {"label":"PASS: MCP query","expect":0,"input":{"session_id":"t","cwd":".","hook_event_name":"PreToolUse","tool_name":"mcp__spacelift__query","tool_input":{},"tool_use_id":"6"}},
+  {"label":"BLOCK: tofu apply","expect":2,"input":{"session_id":"t","cwd":".","hook_event_name":"PreToolUse","tool_name":"execute_command","tool_input":{"command":"tofu apply"},"tool_use_id":"7"}},
+  {"label":"BLOCK: tofu destroy","expect":2,"input":{"session_id":"t","cwd":".","hook_event_name":"PreToolUse","tool_name":"execute_command","tool_input":{"command":"tofu destroy -var-file=prod.tfvars"},"tool_use_id":"8"}},
+  {"label":"BLOCK: terraform apply -auto-approve","expect":2,"input":{"session_id":"t","cwd":".","hook_event_name":"PreToolUse","tool_name":"execute_command","tool_input":{"command":"terraform apply -auto-approve"},"tool_use_id":"9"}},
+  {"label":"BLOCK: tofu taint","expect":2,"input":{"session_id":"t","cwd":".","hook_event_name":"PreToolUse","tool_name":"execute_command","tool_input":{"command":"tofu taint aws_instance.web"},"tool_use_id":"10"}},
+  {"label":"BLOCK: tofu untaint","expect":2,"input":{"session_id":"t","cwd":".","hook_event_name":"PreToolUse","tool_name":"execute_command","tool_input":{"command":"tofu untaint aws_instance.web"},"tool_use_id":"11"}},
+  {"label":"BLOCK: tofu state rm","expect":2,"input":{"session_id":"t","cwd":".","hook_event_name":"PreToolUse","tool_name":"execute_command","tool_input":{"command":"tofu state rm module.foo"},"tool_use_id":"12"}},
+  {"label":"BLOCK: tofu force-unlock","expect":2,"input":{"session_id":"t","cwd":".","hook_event_name":"PreToolUse","tool_name":"execute_command","tool_input":{"command":"tofu force-unlock 1234abcd"},"tool_use_id":"13"}},
+  {"label":"BLOCK: tofu import (direct)","expect":2,"input":{"session_id":"t","cwd":".","hook_event_name":"PreToolUse","tool_name":"execute_command","tool_input":{"command":"tofu import aws_s3_bucket.b my-bucket"},"tool_use_id":"14"}},
+  {"label":"BLOCK: bash -c tofu apply","expect":2,"input":{"session_id":"t","cwd":".","hook_event_name":"PreToolUse","tool_name":"execute_command","tool_input":{"command":"bash -c 'tofu apply'"},"tool_use_id":"15"}},
+  {"label":"BLOCK: echo ok && tofu apply","expect":2,"input":{"session_id":"t","cwd":".","hook_event_name":"PreToolUse","tool_name":"execute_command","tool_input":{"command":"echo ok && tofu apply"},"tool_use_id":"16"}},
+  {"label":"BLOCK: MCP mutate","expect":2,"input":{"session_id":"t","cwd":".","hook_event_name":"PreToolUse","tool_name":"mcp__spacelift__mutate","tool_input":{},"tool_use_id":"17"}},
+  {"label":"BLOCK: MCP intentCreate","expect":2,"input":{"session_id":"t","cwd":".","hook_event_name":"PreToolUse","tool_name":"mcp__spacelift__intentCreate","tool_input":{},"tool_use_id":"18"}},
+  {"label":"BLOCK: MCP intent (generic)","expect":2,"input":{"session_id":"t","cwd":".","hook_event_name":"PreToolUse","tool_name":"mcp__spc_spacelift__intent","tool_input":{},"tool_use_id":"19"}}
+]
