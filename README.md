@@ -9,6 +9,7 @@ A shareable IBM Bob workspace setup for refactoring Terraform to OpenTofu and ru
 | Path | What it is |
 |---|---|
 | [`.bob/custom_modes.yaml`](.bob/custom_modes.yaml) | The custom mode `tofu-spacelift` ("OpenTofu + Spacelift"). Workspace scope: it loads automatically when this folder is open in Bob. |
+| [`.bob/rules-tofu-spacelift/`](.bob/rules-tofu-spacelift) | Modular rule files loaded automatically by Bob for the `tofu-spacelift` mode. Keeps context window lean. |
 | [`.agents/skills/terraform-skill/`](.agents/skills/terraform-skill) | The community [antonbabenko/terraform-skill](https://github.com/antonbabenko/terraform-skill) (Apache-2.0, v1.17.1). Vendored by a third-party installer; read-only. |
 | `.bob/skills/terraform-skill` | Symlink → `.agents/skills/terraform-skill` (created by the `antonbabenko` installer). |
 | [`.bob/skills/spacelift/`](.bob/skills/spacelift) | Spacelift's own `spacelift` skill (MIT, v0.1.0). Installed directly into `.bob/skills` by `npx skills add`. |
@@ -16,9 +17,10 @@ A shareable IBM Bob workspace setup for refactoring Terraform to OpenTofu and ru
 | [`skills-lock.json`](skills-lock.json) | Records all three skills' sources and content hashes. |
 | [`LICENSES/`](LICENSES) | Upstream license text for vendored third-party content. |
 | [`AGENTS.md`](AGENTS.md) | Shared contract for humans and agents. Fill in your organization's conventions. |
+| [`specs/001-inventory/`](specs/001-inventory) | Starter template demonstrating the spec-driven lifecycle (`spec.md`, `plan.md`, `tasks.md`). |
 | [`.bob/mcp.json.example`](.bob/mcp.json.example) | Example MCP config. Copy to `.bob/mcp.json` and add your account name. |
-| `.bob/settings.json` | Bob hooks: blocks destructive commands, runs fmt/validate/scan after edits. |
-| `.gitignore` | Keeps state, plans, `.tfvars`, `.env` and local noise out of git. |
+| [`.bob/settings.json`](.bob/settings.json) | Bob hooks: blocks destructive commands and MCP mutations, runs fmt/validate/scan after edits. |
+| [`.gitignore`](.gitignore) | Keeps state, plans, `.tfvars`, `.env` and local noise out of git. |
 
 Not included on purpose: Spacelift connection settings active in git (they need your account name — see `.bob/mcp.json.example`).
 
